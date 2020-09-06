@@ -62,12 +62,8 @@ pub struct UpdatePetParams {
 pub struct UpdatePetWithFormParams {
     /// ID of pet that needs to be updated
     pub pet_id: i64,
-    /// Updated name of the pet
-    pub name: Option<String>,
     /// Secret Mode. Mandatory for 'Node-Locked' licensing model.
-    pub node_secret_mode: Option<Vec<String>>,
-    /// Updated status of the pet
-    pub status: Option<String>
+    pub node_secret_mode: Option<Vec<String>>
 }
 
 /// struct for passing parameters to the method `upload_file`
@@ -432,9 +428,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
 pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
     // unbox the parameters
     let pet_id = params.pet_id;
-    let name = params.name;
     let node_secret_mode = params.node_secret_mode;
-    let status = params.status;
 
 
     let local_var_client = &configuration.client;
@@ -449,14 +443,8 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form_params = std::collections::HashMap::new();
-    if let Some(local_var_param_value) = name {
-        local_var_form_params.insert("name", local_var_param_value.to_string());
-    }
     if let Some(local_var_param_value) = node_secret_mode {
         local_var_form_params.insert("nodeSecretMode", local_var_param_value.join(",").to_string());
-    }
-    if let Some(local_var_param_value) = status {
-        local_var_form_params.insert("status", local_var_param_value.to_string());
     }
     local_var_req_builder = local_var_req_builder.form(&local_var_form_params);
 

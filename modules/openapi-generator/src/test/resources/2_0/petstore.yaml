@@ -191,11 +191,6 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: name
-          in: formData
-          description: Updated name of the pet
-          required: false
-          type: string
         - description: Secret Mode. Mandatory for 'Node-Locked' licensing model.
           in: formData
           items:
@@ -207,11 +202,6 @@ paths:
           name: nodeSecretMode
           required: false
           type: array
-        - name: status
-          in: formData
-          description: Updated status of the pet
-          required: false
-          type: string
       responses:
         '405':
           description: Invalid input

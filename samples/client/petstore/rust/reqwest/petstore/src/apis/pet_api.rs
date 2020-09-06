@@ -271,7 +271,7 @@ pub fn update_pet(configuration: &configuration::Configuration, body: crate::mod
     }
 }
 
-pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, node_secret_mode: Option<Vec<&str>>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
+pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, node_secret_mode: Option<Vec<&str>>) -> Result<(), Error<UpdatePetWithFormError>> {
 
     let local_var_client = &configuration.client;
 
@@ -285,14 +285,8 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form_params = std::collections::HashMap::new();
-    if let Some(local_var_param_value) = name {
-        local_var_form_params.insert("name", local_var_param_value.to_string());
-    }
     if let Some(local_var_param_value) = node_secret_mode {
         local_var_form_params.insert("nodeSecretMode", local_var_param_value.join(",").to_string());
-    }
-    if let Some(local_var_param_value) = status {
-        local_var_form_params.insert("status", local_var_param_value.to_string());
     }
     local_var_req_builder = local_var_req_builder.form(&local_var_form_params);
 
