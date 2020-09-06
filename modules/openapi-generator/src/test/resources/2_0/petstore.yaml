@@ -196,6 +196,17 @@ paths:
           description: Updated name of the pet
           required: false
           type: string
+        - description: Secret Mode. Mandatory for 'Node-Locked' licensing model.
+          in: formData
+          items:
+            default: PREDEFINED
+            enum:
+              - PREDEFINED
+              - CLIENT
+            type: string
+          name: nodeSecretMode
+          required: false
+          type: array
         - name: status
           in: formData
           description: Updated status of the pet

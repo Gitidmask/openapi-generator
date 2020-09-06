@@ -39,7 +39,7 @@ pub trait PetApi {
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<dyn Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>>;
     fn get_pet_by_id(&self, pet_id: i64) -> Box<dyn Future<Item = crate::models::Pet, Error = Error<serde_json::Value>>>;
     fn update_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, node_secret_mode: Option<&str>, status: Option<&str>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
     fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Box<dyn Future<Item = crate::models::ApiResponse, Error = Error<serde_json::Value>>>;
 }
 
@@ -108,13 +108,16 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         req.execute(self.configuration.borrow())
     }
 
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, node_secret_mode: Option<&str>, status: Option<&str>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
         req = req.with_path_param("petId".to_string(), pet_id.to_string());
         if let Some(param_value) = name {
             req = req.with_form_param("name".to_string(), param_value.to_string());
+        }
+        if let Some(param_value) = node_secret_mode {
+            req = req.with_form_param("nodeSecretMode".to_string(), param_value.join(",").to_string());
         }
         if let Some(param_value) = status {
             req = req.with_form_param("status".to_string(), param_value.to_string());

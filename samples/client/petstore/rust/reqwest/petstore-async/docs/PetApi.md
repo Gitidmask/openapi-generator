@@ -192,7 +192,7 @@ Name | Type | Description  | Required | Notes
 
 ## update_pet_with_form
 
-> update_pet_with_form(pet_id, name, status)
+> update_pet_with_form(pet_id, name, node_secret_mode, status)
 Updates a pet in the store with form data
 
 ### Parameters
@@ -202,6 +202,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **pet_id** | **i64** | ID of pet that needs to be updated | [required] |
 **name** | Option<**String**> | Updated name of the pet |  |
+**node_secret_mode** | Option<[**Vec<String>**](String.md)> | Secret Mode. Mandatory for 'Node-Locked' licensing model. |  |[default to PREDEFINED]
 **status** | Option<**String**> | Updated status of the pet |  |
 
 ### Return type
